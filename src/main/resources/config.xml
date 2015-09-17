@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+     http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+    <beans profile="default,!default">
+        <util:map id="params">
+            <entry key="profile" value="default"/>
+        </util:map>
+    </beans>
+
+    <beans profile="dev">
+        <util:map id="params">
+            <entry key="profile" value="dev"/>
+        </util:map>
+    </beans>
+
+    <beans profile="uat">
+        <util:map id="params">
+            <entry key="profile" value="uat"/>
+        </util:map>
+    </beans>
+
+    <beans profile="prod">
+        <util:map id="params">
+            <entry key="profile" value="prod"/>
+        </util:map>
+    </beans>
+
+</beans>
