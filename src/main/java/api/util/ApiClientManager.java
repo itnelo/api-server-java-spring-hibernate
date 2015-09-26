@@ -38,9 +38,9 @@ public class ApiClientManager
         DatabaseUser clientDatabaseUser = clientDatabase.getDatabaseUser();
         Session session = HibernateUtil.openSession(
                                             null,
-                clientDatabase.getDatabaseName(),
-                clientDatabaseUser.getDatabaseUserName(),
-                clientDatabaseUser.getDatabaseUserPass());
+                                            clientDatabase.getDatabaseName(),
+                                            clientDatabaseUser.getDatabaseUserName(),
+                                            clientDatabaseUser.getDatabaseUserPass());
         client.setSession(session);
     }
 

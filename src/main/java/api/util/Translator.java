@@ -13,7 +13,7 @@ public class Translator
     public enum CATEGORY {
         ERRORS("errors");
 
-        private final String name;
+        private String name;
 
         CATEGORY(String name) {
             this.name = name;

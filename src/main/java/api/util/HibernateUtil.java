@@ -31,10 +31,10 @@ public class HibernateUtil {
                             final String dbpass) {
 
         String key = dbhost + dbname + dbuser + dbpass;
-        if (sessionFactories.containsKey(key)) {
-            return sessionFactories.get(key).openSession();
+        SessionFactory sf = sessionFactories.get(key);
+        if (sf != null) {
+            return sf.openSession();
         }
-        SessionFactory sf = null;
         try {
             sf = buildConfiguration(dbhost, dbname, dbuser, dbpass).buildSessionFactory();
         } catch (Throwable e) {
