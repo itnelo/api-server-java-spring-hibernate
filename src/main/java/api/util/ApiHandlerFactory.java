@@ -16,8 +16,12 @@ public class ApiHandlerFactory
         String queryHandlerKey = null;
         try {
             queryHandlerKey = query.getHandlerKey();
-            String handlerClasspath = "api.handler.version.v" + query.getApiVersion() + ".";
-            handler = (ApiHandler) Class.forName(handlerClasspath + t(queryHandlerKey) + "Handler").newInstance();
+            StringBuilder handlerNameBuilder = new StringBuilder("api.handler.version.v")
+                    .append(query.getApiVersion())
+                    .append(".")
+                    .append(t(queryHandlerKey))
+                    .append("Handler");
+            handler = (ApiHandler) Class.forName(handlerNameBuilder.toString()).newInstance();
         } catch (ClassNotFoundException e) {
             throw new UnknownQueryException(tr.tr(Translator.CATEGORY.ERRORS, "Unknown request", queryHandlerKey));
         } catch (Exception e) {

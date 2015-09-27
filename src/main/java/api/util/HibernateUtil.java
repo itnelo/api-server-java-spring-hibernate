@@ -28,9 +28,14 @@ public class HibernateUtil {
                             final String dbhost,
                             final String dbname,
                             final String dbuser,
-                            final String dbpass) {
-
-        String key = dbhost + dbname + dbuser + dbpass;
+                            final String dbpass)
+    {
+        String key = new StringBuilder()
+                .append(dbhost)
+                .append(dbname)
+                .append(dbuser)
+                .append(dbpass)
+                .toString();
         SessionFactory sf = sessionFactories.get(key);
         if (sf != null) {
             return sf.openSession();

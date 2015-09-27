@@ -14,7 +14,7 @@ public class ApiLogger {
         StringBuilder sb = new StringBuilder();
         String lineSeparator = System.getProperty("line.separator");
         for (String s: info) {
-            sb.append(s + lineSeparator);
+            sb.append(s).append(lineSeparator);
         }
         log(sb.toString());
     }

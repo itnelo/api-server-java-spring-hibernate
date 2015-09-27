@@ -29,12 +29,12 @@ public class ApiQueryParser
         }
 
         Map<String, String> handlerParams = new LinkedHashMap<String, String>();
-        String queryDataParamName = t(ApiQuery.RequestParam.QUERY_DATA);
+        String queryDataParamMatch = t(ApiQuery.RequestParam.QUERY_DATA) + "[";
 
         for (Map.Entry<String, String[]> entry: request.getParameterMap().entrySet()) {
             String name = entry.getKey();
 
-            if (name.startsWith(queryDataParamName + "[")) {
+            if (name.startsWith(queryDataParamMatch)) {
                 String key = name.substring(name.indexOf('[') + 1, name.indexOf(']'));
                 handlerParams.put(key, entry.getValue()[0]);
             }
