@@ -31,10 +31,11 @@ public class Translator
     }
 
     public String tr(CATEGORY category, final String str) {
-        if (resourceBundles.containsKey(category)) {
-            return resourceBundles.get(category).getString(str);
+        ResourceBundle bundle = resourceBundles.get(category);
+        if (bundle != null) {
+            return bundle.getString(str);
         }
-        ResourceBundle bundle = setupResourceBundle(category);
+        bundle = setupResourceBundle(category);
         resourceBundles.put(category, bundle);
         return bundle.getString(str);
     }
