@@ -1,30 +1,18 @@
-package api.util;
+package api.services.impl;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import java.text.MessageFormat;
 import java.util.*;
+import api.services.Translator;
 
-@Component
-public class Translator
+@Service("apiTranslator")
+public class TranslatorImpl
+    implements Translator<String, String>
 {
     private static Map<CATEGORY, ResourceBundle> resourceBundles;
     private static Locale currentLocale;
 
-    public enum CATEGORY {
-        ERRORS("errors");
-
-        private String name;
-
-        CATEGORY(String name) {
-            this.name = name;
-        }
-
-        public String toString() {
-            return name;
-        }
-    }
-
-    public Translator() {
+    public TranslatorImpl() {
         resourceBundles = new HashMap<CATEGORY, ResourceBundle>();
         String language = System.getProperty("user.language");
         currentLocale = new Locale((language != null) ? language : "en");

@@ -3,8 +3,6 @@ package api.model;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.Session;
-
 import javax.persistence.*;
 
 @Entity
@@ -32,7 +30,7 @@ public class Client {
 
     @Getter @Setter
     @Transient
-    private Session session;
+    private EntityManager entityManager;
 
 //    @Getter @Setter private Long client_type_id;
 //    @Getter @Setter private String client_title;

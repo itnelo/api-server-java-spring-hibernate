@@ -1,0 +1,30 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+
+    <persistence-unit name="default">
+        <class>api.model.Client</class>
+        <class>api.model.Database</class>
+        <class>api.model.DatabaseUser</class>
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://<deleted>/<deleted>"/>
+            <property name="javax.persistence.jdbc.user" value="<deleted>"/>
+            <property name="javax.persistence.jdbc.password" value="<deleted>"/>
+            <property name="javax.persistence.jdbc.url_template" value="jdbc:mysql://%s/%s"/>
+            <property name="javax.persistence.jdbc.default_host" value="<deleted>"/>
+            <property name="javax.persistence.jdbc.default_database" value="<deleted>"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="client">
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url" value=""/>
+            <property name="javax.persistence.jdbc.user" value=""/>
+            <property name="javax.persistence.jdbc.password" value=""/>
+        </properties>
+    </persistence-unit>
+
+</persistence>

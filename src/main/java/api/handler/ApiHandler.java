@@ -1,35 +1,39 @@
 package api.handler;
 
-import api.util.Translator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+import javax.persistence.EntityManager;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.Map;
-
-import api.classes.ApiException;
-import api.classes.ApiQuery;
-import api.util.ApiLogger;
+import api.classes.*;
 import api.model.Client;
+import api.services.Translator;
 
+@Component
 public abstract class ApiHandler
-        implements IHandler<ApiQuery, Client>
+        implements Handler<ApiRequest, Client>
 {
-    @Autowired protected ApiLogger logger;
-    @Autowired protected Translator tr;
+    @Autowired @Qualifier("apiTranslator")
+    protected Translator tr;
 
+    @SuppressWarnings("unchecked")
     @Override
-    public final Map<String, String> handle(final ApiQuery query, final Client client) throws ApiHandlerException {
-        Map<String, String> result = null;
+    public final String handle(ApiRequest request, Client client) throws ApiHandlerException {
+        String result;
         try {
-            result = run(query.getHandlerParams(), client.getSession());
+            result = run(request.getHandlerParams(), client.getEntityManager());
         } catch (Exception e) {
-            logger.log(query.toString());
-            logger.log(client.toString());
-            throw new ApiHandlerException(tr.tr(Translator.CATEGORY.ERRORS, "Handler error", query.getHandlerKey()), e);
+            Logger logger = Logger.getLogger("ApiHandler");
+            logger.log(Level.INFO, request.toString());
+            logger.log(Level.INFO, client.toString());
+            throw new ApiHandlerException((String) tr.tr(Translator.CATEGORY.ERRORS, "Handler error", request.getQueryKey()), e);
         }
         return result;
     }
 
-    abstract protected Map<String, String> run(final Map<String, String> params, final Session clientSession);
+    abstract protected String run(Map<String, String> params, EntityManager entityManager);
 
     private class ApiHandlerException extends ApiException {
         public ApiHandlerException(String message, Throwable cause) {

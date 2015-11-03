@@ -1,18 +1,22 @@
-package api.DAO.Impl;
+package api.dao.impl;
 
-import org.hibernate.criterion.Restrictions;
-import java.sql.SQLException;
-import api.DAO.IClientDAO;
+import org.springframework.stereotype.Component;
+import javax.persistence.PersistenceException;
+import javax.persistence.criteria.*;
+import api.dao.ClientDAO;
 import api.model.Client;
 
-public class ClientDAOImpl extends DAOImpl
-        implements IClientDAO
+@Component("clientDAO")
+public class ClientDAOImpl extends AbstractDAO
+        implements ClientDAO
 {
     @Override
-    public Client getById(Long client_id) throws SQLException {
+    public Client getById(Long clientId) {
         Client client = null;
         try {
-            client = (Client) openSession().load(Client.class, client_id);
+            client = entityManager().find(Client.class, clientId);
+        } catch (PersistenceException e) {
+
         } finally {
             free();
         }
@@ -20,15 +24,39 @@ public class ClientDAOImpl extends DAOImpl
     }
 
     @Override
-    public Client getByClientAndAccessKey(final String client_key, final String access_key) throws SQLException {
+    public Client getByKey(String clientKey) {
         Client client = null;
         try {
-            client = (Client) openSession()
-                                .createCriteria(Client.class)
-                                .add(Restrictions.eq("clientKey", client_key))
-                                .add(Restrictions.eq("accessKey", access_key))
-                                .uniqueResult();
+            CriteriaBuilder criteriaBuilder = entityManager().getCriteriaBuilder();
+            CriteriaQuery<Client> clientCriteria = criteriaBuilder.createQuery(Client.class);
+            Root<Client> clientRoot = clientCriteria.from(Client.class);
+            clientCriteria.select(clientRoot);
+            clientCriteria.where(criteriaBuilder.equal(clientRoot.get("clientKey"), clientKey));
+            client = entityManager().createQuery(clientCriteria).getSingleResult();
+        } catch (PersistenceException e) {
+
         } finally {
+            free();
+        }
+        return client;
+    }
+
+    @Override
+    public Client getByClientAndAccessKey(final String clientKey, final String accessKey) {
+        Client client = null;
+        try {
+            CriteriaBuilder criteriaBuilder = entityManager().getCriteriaBuilder();
+            CriteriaQuery<Client> clientCriteria = criteriaBuilder.createQuery(Client.class);
+            Root<Client> clientRoot = clientCriteria.from(Client.class);
+            clientCriteria.select(clientRoot);
+            clientCriteria.where(
+                    criteriaBuilder.equal(clientRoot.get("clientKey"), clientKey),
+                    criteriaBuilder.equal(clientRoot.get("accessKey"), accessKey));
+            client = entityManager().createQuery(clientCriteria).getSingleResult();
+        } catch (PersistenceException e) {
+
+        }
+        finally {
             free();
         }
         return client;
